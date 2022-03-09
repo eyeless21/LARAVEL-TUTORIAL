@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Services\Newsletter;
 use Exception;
 use Illuminate\Validation\ValidationException;
 
 class NewsletterController extends Controller
 {
-    public function _invoke(Newsletter $newsletter) {
+    public function __invoke(MailchimpNewsletter $newsletter) {
         request()->validate(['email' => 'required|email']);
         try{
             $newsletter->subscribe(request('email'));

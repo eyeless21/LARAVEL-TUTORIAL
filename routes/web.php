@@ -6,28 +6,16 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\PostCommentsController;
+use App\Services\Newsletter;
 use Illuminate\Support\Facades\Route;
-
-Route::get('ping',function(){
-    $mailchimp = new \MailchimpMarketing\ApiClient();
-
-$mailchimp->setConfig([
-	'apiKey' => config('services.mailchimp.key'),
-	'server' => 'us6'
-]);
-
-$response = $mailchimp->lists->addListMember('d3c0c95629',[
-    'email_address' => 'jeffjordanway@gmail.com',
-    'status' => 'subscribed'
-]);
-
-//$response = $mailchimp->ping->get();
-// print_r($response);
-});
+use Illuminate\Validation\ValidationException;
 
 Route::get('/', [PostController::class, 'index'])->name('home');
+ 
 Route::get('posts/{post:slug}', [PostController::class, 'show']);
 Route::post('posts/{post:slug}/comments', [PostCommentsController::class, 'store']);
+
+Route::post('newsletter', NewsletterController::class);
 
 Route::get('register', [RegisterController::class, 'create'])->middleware('guest');
 Route::post('register', [RegisterController::class, 'store'])->middleware('guest');

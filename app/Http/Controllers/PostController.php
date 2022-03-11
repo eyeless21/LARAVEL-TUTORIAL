@@ -3,21 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Illuminate\Validation\Rule;
 
 class PostController extends Controller
 {
     public function index()
     {
-        Gate::allows('admin');
-
-        return view('posts.index', ['posts' => Post::latest()->filter(
-            request(['search', 'category', 'author'])
-            )->paginate(18)->withQueryString()]);
+        return view('posts.index', [
+            'posts' => Post::latest()->filter(
+                        request(['search', 'category', 'author'])
+                    )->paginate(18)->withQueryString()
+        ]);
     }
 
-    public function show(Post $post){
-        return view('posts.show', ['post' => $post]);
+    public function show(Post $post)
+    {
+        return view('posts.show', [
+            'post' => $post
+        ]);
     }
-
-
 }

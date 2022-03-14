@@ -37,7 +37,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Model::unguard();
 
-        Gate::define('admin', function (User $user){
+        Gate::define('guest', function (User $user){
             return user()->username == 'Apostolos';
         });
     }
